@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aside Prompt Studio - 나만의 AI 에이전트 프롬프트 허브</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <!-- Terminal / Sparkle SVG Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </div>
+        <div class="brand-title">
+          Aside Prompt Studio
+          <span class="badge">v1.0</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <!-- New Prompt Button -->
+        <button id="btnNewPrompt" class="btn btn-primary" title="새 프롬프트 추가">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span class="btn-text-hide">프롬프트 추가</span>
+        </button>
+
+        <!-- Export JSON -->
+        <button id="btnExport" class="btn" title="프롬프트 데이터 백업 (JSON 다운로드)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span class="btn-text-hide">백업</span>
+        </button>
+
+        <!-- Import JSON Hidden Input & Trigger -->
+        <input type="file" id="fileInput" accept=".json" style="display: none;">
+        <button id="btnImport" class="btn" title="JSON 백업 파일 복원">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span class="btn-text-hide">불러오기</span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="btnThemeToggle" class="btn btn-icon" title="다크/라이트 테마 전환">
+          <svg id="themeIconDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="themeIconLight" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <h1>AI 브라우저 &amp; 에이전트 실전 프롬프트 허브</h1>
+      <p>Aside, Claude Code, ChatGPT, Gemini 등에서 즉시 복사하여 실행할 수 있는 검증된 템플릿과 안전 제어 수칙을 제공합니다.</p>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="키워드, 제목, 태그, 웹사이트(예: coupang, 블로그, 세무) 검색..." autocomplete="off">
+          <button id="searchClear" class="search-clear" title="검색어 지우기">✕</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Chips Filter Bar -->
+    <nav class="chips-bar" id="categoryChips">
+      <!-- Generated via JS -->
+    </nav>
+
+    <!-- Stats & View Controls -->
+    <div class="stats-bar">
+      <div class="stats-count">
+        총 <strong id="totalCount">0</strong>개 중 <strong id="matchCount">0</strong>개 표시 중
+      </div>
+      <div class="stats-actions">
+        <button id="btnResetData" class="btn btn-sm" style="color: var(--text-muted); font-size: 0.75rem;" title="기본 프롬프트로 초기화">
+          기본값 복원
+        </button>
+      </div>
+    </div>
+
+    <!-- Prompts Grid Container -->
+    <div class="prompt-grid" id="promptGrid">
+      <!-- Cards rendered here -->
+    </div>
+
+    <!-- Empty State Template -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h3>검색 결과가 없습니다</h3>
+      <p style="margin-top: 6px;">다른 검색어를 입력하시거나 다른 카테고리를 선택해 보세요.</p>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       MODAL 1: Detail & Interactive Variable Customizer Modal
+       ====================================================================== -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <div class="modal-badges">
+            <span class="card-id" id="modalId">#P01</span>
+            <span class="tag tag-status" id="modalStatus">실전 검증됨</span>
+            <span class="card-group" id="modalGroup">웹 리서치 & 분석</span>
+          </div>
+          <h2 class="modal-title" id="modalTitle">프롬프트 제목</h2>
+        </div>
+        <button class="modal-close" id="modalCloseBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Value Prop (Why) -->
+        <div>
+          <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            활용 목적 &amp; 효과 (Why)
+          </div>
+          <p id="modalWhy" style="color: var(--text-secondary); line-height: 1.5;"></p>
+        </div>
+
+        <!-- Safe Stop Rule -->
+        <div class="card-stop-rule" id="modalStopWrapper">
+          <strong style="white-space: nowrap;">🛑 안전 중단 수칙:</strong>
+          <span id="modalStop">장바구니 담기 또는 구매 직전</span>
+        </div>
+
+        <!-- Interactive Variable Replacer Form -->
+        <div class="customizer-box" id="variableCustomizerBox">
+          <div class="customizer-header">
+            <div class="section-title" style="margin-bottom: 0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              실시간 변수 입력 (값 채우기)
+            </div>
+            <button id="btnFillSample" class="btn btn-sm" title="예시값으로 자동 채우기">
+              💡 예시값 채우기
+            </button>
+          </div>
+          <div id="variableInputsContainer" class="variables-form">
+            <!-- Dynamically populated variable input fields -->
+          </div>
+        </div>
+
+        <!-- Realtime Live Prompt Preview -->
+        <div>
+          <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="M10 4v4"></path>
+              <path d="M2 8h20"></path>
+            </svg>
+            완성된 프롬프트 미리보기
+          </div>
+          <div class="prompt-preview-box" id="modalPromptPreview"></div>
+        </div>
+      </div>
+
+      <!-- Modal Footer Action Buttons -->
+      <div class="modal-footer">
+        <div class="modal-footer-left">
+          <button id="btnEditCurrent" class="btn btn-sm" title="이 프롬프트 수정">
+            ✏️ 수정
+          </button>
+          <button id="btnDeleteCurrent" class="btn btn-sm" style="color: var(--badge-stop-text);" title="이 프롬프트 삭제">
+            🗑️ 삭제
+          </button>
+        </div>
+        <div class="modal-footer-right">
+          <button id="btnCopyCli" class="btn" title="Aside CLI 명령어 형식으로 복사">
+            ⚡ CLI 명령어 복사
+          </button>
+          <button id="btnCopyPrompt" class="btn btn-primary" title="완성된 프롬프트 텍스트 클립보드 복사">
+            📋 프롬프트 복사
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 2: Create / Edit Prompt Modal
+       ====================================================================== -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="editModalTitle">새 프롬프트 추가</h2>
+        <button class="modal-close" id="editModalCloseBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="var-input-group">
+          <label>카테고리 (분류)</label>
+          <input type="text" id="inputGroup" placeholder="예: 업무 자동화 & RPA, 웹 리서치 & 분석 등" list="categoryList">
+          <datalist id="categoryList">
+            <option value="웹 리서치 & 분석">
+            <option value="업무 자동화 & RPA">
+            <option value="개발 & 코드 검증">
+            <option value="기획 & PRD">
+            <option value="콘텐츠 & 마케팅">
+            <option value="행정 & 세무">
+            <option value="나만의 프롬프트">
+          </datalist>
+        </div>
+
+        <div class="var-input-group">
+          <label>제목 (Title)</label>
+          <input type="text" id="inputTitle" placeholder="예: 이커머스 최저가 및 스펙 비교표 생성">
+        </div>
+
+        <div class="var-input-group">
+          <label>활용 목적 &amp; 효과 (Why)</label>
+          <input type="text" id="inputWhy" placeholder="예: 여러 탭을 오갈 필요 없이 표 하나로 핵심만 대조">
+        </div>
+
+        <div class="var-input-group">
+          <label>🛑 안전 중단 수칙 (Safe Stop Rule)</label>
+          <input type="text" id="inputStop" placeholder="예: 결제 직전 또는 이메일 최종 발송 직전 멈춤">
+        </div>
+
+        <div class="var-input-group">
+          <label>프롬프트 본문 (변수는 {{변수명}} 형식으로 입력하세요)</label>
+          <textarea id="inputPrompt" rows="8" placeholder="예: {{쇼핑몰}}에서 {{상품명}}을(를) 찾아 비교표를 만들어 주세요."></textarea>
+        </div>
+
+        <div class="var-input-group">
+          <label>연관 사이트 (쉼표로 구분)</label>
+          <input type="text" id="inputSites" placeholder="예: coupang.com, naver.com">
+        </div>
+
+        <div class="var-input-group">
+          <label>태그 (쉼표로 구분)</label>
+          <input type="text" id="inputTags" placeholder="예: 쇼핑, 비교, 자동화">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-footer-left"></div>
+        <div class="modal-footer-right">
+          <button id="btnCancelEdit" class="btn">취소</button>
+          <button id="btnSavePrompt" class="btn btn-primary">저장하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Aside Prompt Studio &bull; Designed for Agentic AI Workflows &amp; Safe Automation</p>
+      <div class="footer-links">
+        <a href="https://dexa.art/aside/" target="_blank" rel="noopener">참고 사이트(dexa.art/aside)</a>
+        <span>&bull;</span>
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="prompts-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

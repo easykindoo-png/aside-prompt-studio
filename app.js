@@ -7,7 +7,7 @@
   'use strict';
 
   // --- State ---
-  const STORAGE_KEY = 'aside_prompts_data_v1';
+  const STORAGE_KEY = 'aside_prompts_data_v2';
   const FAVORITES_KEY = 'aside_favorites_v1';
   const THEME_KEY = 'aside_theme_v1';
 
